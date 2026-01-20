@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Callable
 from functools import lru_cache
 
 # A leetcode problem that has real use is coin change 2. Let's begin with the optimized bottom up solution
@@ -14,7 +14,7 @@ class Solution:
                 
         return dp[amount]
 
-# The solution is fine, it is optimal (time and space complexity is O(n*m)) but I like recursion so let's try a recursive solution...
+# The solution is fine, it is optimal (time complexity is O(n*m), space complexity is O(n)) but I like recursion so let's try a recursive solution...
 #     
 class Solution1:
     def change(self, amount: int, coins: List[int]) -> int:
@@ -29,7 +29,7 @@ class Solution1:
         return cc(0, 0)
 
 # This ^^ has horrible performance, let's add memoization...
-
+#
 class Solution2:
     def change(self, amount: int, coins: List[int]) -> int:
         cache = {}
@@ -54,6 +54,7 @@ class Solution2:
 # This ^^ is better, not as good a performer as the bottom up solution and will have stack overflow issues, but it is good on paper.
 # But to be really useful a solution should return the combinations instead of the sum of the combinations.
 # This next one is very knapsack like: 
+#
 class Solution3:
     def change(self, amount: int, coins: List[int]) -> List[List[int]]:
         # Convert coins to a tuple to make it hashable for lru_cache
@@ -87,8 +88,7 @@ class Solution3:
         return [list(combination) for combination in result]
 
 # The solution is good, it uses memoization, but I'd like it to be tail recursive... The next one is by Gemini.
-from typing import List, Callable
-
+#
 class Solution4:
     def change(self, amount: int, coins: List[int]) -> List[List[int]]:
         # tr_cc is tail-recursive because its only action is calling itself.
